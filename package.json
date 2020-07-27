@@ -1,0 +1,19 @@
+{
+  "name": "study-ai",
+  "version": "1.0.0",
+  "description": "Study service for students utilizing machine learning and spaced repetition.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jackpalaia/study-ai.git"
+  },
+  "author": "Jack Palaia",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jackpalaia/study-ai/issues"
+  },
+  "homepage": "https://github.com/jackpalaia/study-ai#readme"
+}
