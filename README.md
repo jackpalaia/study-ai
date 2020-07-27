@@ -2,13 +2,13 @@
 Study service for students utilizing machine learning and spaced repetition.
 
 # to-do
- - initialize express server
- - create mongodb database
- - connect database to server with mongoose
- - create schemas
-    - user
-    - set
-    - card
+ x initialize express server
+ x create mongodb database
+ x connect database to server with mongoose
+ x create models
+    x user
+    x set
+    x card
  - create endpoints
     - get
         - user

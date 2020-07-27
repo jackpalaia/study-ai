@@ -4,6 +4,8 @@
   "description": "Study service for students utilizing machine learning and spaced repetition.",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -15,5 +17,12 @@
   "bugs": {
     "url": "https://github.com/jackpalaia/study-ai/issues"
   },
-  "homepage": "https://github.com/jackpalaia/study-ai#readme"
+  "homepage": "https://github.com/jackpalaia/study-ai#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.25",
+    "mongoose-unique-validator": "^2.0.3"
+  }
 }
