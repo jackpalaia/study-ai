@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const Card = require('../models/Card')
 const Set = require('../models/Set')
+const jwt = require('jsonwebtoken')
 
 router.route('/')
   .get(async (req, res) => {
@@ -8,6 +9,12 @@ router.route('/')
     res.send(cards.map(card => card.toJSON())).status(200).end()
   })
   .post(async (req, res) => {
+    const decodedToken = jwt.verify(req.token, process.env.SECRET)
+    console.log(req.token)
+    console.log(decodedToken)
+    if (!req.token || !decodedToken.id) {
+      return res.status(401).json({ error: 'token missing or invalid' }).end()
+    }
     const set = await Set.findById(req.body.set)
     const card = new Card(req.body)
     const savedCard = await card.save()
