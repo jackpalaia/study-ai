@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const Set = require('../models/Set')
+const User = require('../models/User')
 
 router.route('/')
   .get(async (req, res) => {
@@ -7,9 +8,12 @@ router.route('/')
     res.send(sets.map(set => set.toJSON())).status(200).end()
   })
   .post(async (req, res) => {
+    const user = await User.findById(req.body.user)
     const set = new Set(req.body)
-    const savedSet = await Set.save()
-    res.send(savedSet.toJSON()).status(200).end()
+    const savedSet = await set.save()
+    user.sets = user.sets.concat(savedSet.id)
+    await user.save()
+    res.json(savedSet.toJSON()).status(200).end()
   })
 
 router.route('/:id')
@@ -23,8 +27,8 @@ router.route('/:id')
   })
   .put(async (req, res) => {
     const set = req.body
-    const updatedSet = await Set.findByIdAndUpdate(req.params.id, task, { new: true })
-    res.send(updatedSet.toJSON())
+    const updatedSet = await Set.findByIdAndUpdate(req.params.id, set, { new: true })
+    res.json(updatedSet.toJSON())
   })
   .delete(async (req, res) => {
     await Set.findByIdAndDelete(req.params.id)

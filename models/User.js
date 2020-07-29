@@ -10,9 +10,13 @@ const userSchema = new mongoose.Schema({
       ref: 'Set'
     }
   ],
+  name: {
+    type: String,
+  },
   username: {
     type: String,
-    unique: true
+    required: true,
+    unique: true,
   },
   passwordHash: {
     type: String
@@ -23,14 +27,15 @@ const userSchema = new mongoose.Schema({
   }
 })
 
+userSchema.plugin(uniqueValidator)
+
 userSchema.set('toJSON', {
   transform: (doc, obj) => {
     obj.id = obj._id.toString()
     delete obj._id
     delete obj.__v
+    delete obj.passwordHash
   }
 })
-
-userSchema.plugin(uniqueValidator)
 
 module.exports = mongoose.model('User', userSchema)

@@ -1,15 +1,28 @@
 const router = require('express').Router()
-const Card = require('../models/Card')
+const User = require('../models/User')
+const bcrypt = require('bcrypt')
 
 router.route('/')
   .get(async (req, res) => {
-    const cards = await Card.find({})
-    res.send(cards.map(card => card.toJSON())).status(200).end()
+    const users = await User.find({})
+    res.json(users.map(u => u.toJSON())).status(200).end()
   })
   .post(async (req, res) => {
-    const card = new Card(req.body)
-    const savedCard = await card.save()
-    res.send(savedCard.toJSON()).status(200).end()
+    const { name, username, password } = req.body
+    const minLength = 5
+
+    if (!password || password.length < minLength) {
+      return res.status(400).json({
+        error: `password must be at least ${minLength} characters`
+      })
+    }
+
+    const saltRounds = 10
+    const passwordHash = await bcrypt.hash(password, saltRounds)
+
+    const user = new User({ name, username, passwordHash })
+    const savedUser = await user.save()
+    res.json(savedUser.toJSON()).status(200).end()
   })
 
 router.route('/:id')
