@@ -1,20 +1,43 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { getCards } from './reducers/cardReducer'
+import React, { useState, useEffect } from 'react'
+import Navbar from './components/Navbar'
+import Main from './components/Main'
+import loginService from './services/loginService'
+import { useHistory } from 'react-router-dom'
 
 const App = () => {
-  const dispatch = useDispatch()
-  const cards = useSelector(state => state.cards)
+  const [user, setUser] = useState(null)
+
+  const history = useHistory()
+  console.log(user)
 
   useEffect(() => {
-    dispatch(getCards())
-  }, [dispatch])
+    const loggedUser = window.localStorage.getItem('user')
+    if (loggedUser) {
+      const user = JSON.parse(loggedUser)
+      setUser(user)
+    }
+  }, [])
+
+  const handleLogin = async credentials => {
+    try {
+      const loggedUser = await loginService.login(credentials)
+      setUser(loggedUser)
+      window.localStorage.setItem('user', JSON.stringify(loggedUser))
+      history.push('/sets')
+    } catch (e) {
+      console.log('wrong credentials');
+    }
+  }
+
+  const handleLogout = async () => {
+    window.localStorage.clear()
+    setUser(null)
+  }
 
   return (
     <div>
-      <ul>
-        {cards.map(c => <li>{c.front}</li>)}
-      </ul>
+      <Navbar user={user} handleLogout={handleLogout} />
+      <Main handleLogin={handleLogin} user={user} />
     </div>
   )
 }

@@ -9,7 +9,7 @@ router.route('/')
   })
   .post(async (req, res) => {
     const user = await User.findById(req.body.user)
-    const set = new Set(req.body)
+    const set = new Set({ ...req.body, user: user.username })
     const savedSet = await set.save()
     user.sets = user.sets.concat(savedSet.id)
     await user.save()

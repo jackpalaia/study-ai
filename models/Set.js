@@ -3,6 +3,10 @@ const mongoose = require('mongoose')
 mongoose.set('useFindAndModify', false)
 
 const setSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true
+  },
   cards: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -14,7 +18,7 @@ const setSchema = new mongoose.Schema({
     default: new Date()
   },
   user: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     ref: 'User'
   }
 })
