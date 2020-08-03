@@ -10,8 +10,6 @@ const Sets = ({ user, handleAddSet }) => {
   
   const filteredSets = () => sets.filter(s => s.username === user.username)
 
-  const handleSubmit = () => 
-
   return (
     <div>
       {
