@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react'
 import Navbar from './components/Navbar'
 import Main from './components/Main'
 import loginService from './services/loginService'
+import setService from './services/setService'
 import { useHistory } from 'react-router-dom'
 
 const App = () => {
   const [user, setUser] = useState(null)
 
   const history = useHistory()
-  console.log(user)
 
   useEffect(() => {
     const loggedUser = window.localStorage.getItem('user')
@@ -34,10 +34,20 @@ const App = () => {
     setUser(null)
   }
 
+  const handleAddSet = async set => {
+    try {
+      const newSet = { ...set, username: user.username }
+      console.log(newSet)
+      await setService.create(newSet)
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   return (
     <div>
       <Navbar user={user} handleLogout={handleLogout} />
-      <Main handleLogin={handleLogin} user={user} />
+      <Main handleLogin={handleLogin} user={user} handleAddSet={handleAddSet} />
     </div>
   )
 }

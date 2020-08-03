@@ -17,7 +17,7 @@ const setSchema = new mongoose.Schema({
     type: Date,
     default: new Date()
   },
-  user: {
+  username: {
     type: String,
     ref: 'User'
   }

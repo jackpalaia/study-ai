@@ -4,13 +4,13 @@ import Sets from './Sets'
 import Login from './Login'
 import { Switch, Route } from 'react-router-dom'
 
-const Main = ({ handleLogin, user }) => {
+const Main = ({ handleLogin, user, handleAddSet }) => {
 
   return (
     <main>
       <Switch>
         <Route path='/sets'>
-          <Sets user={user} />
+          <Sets user={user} handleAddSet={handleAddSet} />
         </Route>
         <Route path='/login'>
           <Login handleLogin={handleLogin} />

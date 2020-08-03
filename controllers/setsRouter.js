@@ -8,9 +8,11 @@ router.route('/')
     res.send(sets.map(set => set.toJSON())).status(200).end()
   })
   .post(async (req, res) => {
-    const user = await User.findById(req.body.user)
-    const set = new Set({ ...req.body, user: user.username })
+    const username = req.body.username
+    const user = await User.findOne({ username })
+    const set = new Set({ name: req.body.name, username })
     const savedSet = await set.save()
+    console.log(username)
     user.sets = user.sets.concat(savedSet.id)
     await user.save()
     res.json(savedSet.toJSON()).status(200).end()
