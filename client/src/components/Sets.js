@@ -1,13 +1,18 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import setService from '../services/setService'
 import Set from './Set'
 import AddSet from './AddSet'
+import { useRecoilState } from 'recoil'
+import { setsState } from '../store'
 
-const Sets = ({ user, handleAddSet }) => {
-  const [sets, setSets] = useState([])
+const Sets = ({ user }) => {
+  const [sets, setSets] = useRecoilState(setsState)
 
-  useEffect(() => {(async () => setSets(await setService.getAll()))()}, [])
-  
+  const addSet = async set => {
+    const newSet = await setService.create({ ...set, username: user.username })
+    setSets(sets.concat(newSet))
+  }
+
   const filteredSets = () => sets.filter(s => s.username === user.username)
 
   return (
@@ -16,13 +21,13 @@ const Sets = ({ user, handleAddSet }) => {
         user
           ?
           <div>
-            <AddSet handleAddSet={handleAddSet} />
+            <AddSet handleAddSet={addSet} />
             <div>
               {filteredSets().map(s => (
-                <Set key={s.id} set={s} collapsed={true}>{s.name}</Set>
+                <Set key={s.id} set={s}>{s.name}</Set>
               ))}
-              </div>
             </div>
+          </div>
           : <span>login to see sets</span>
       }
     </div>

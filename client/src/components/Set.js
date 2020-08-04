@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 const Div = styled.div`
   background: lightgrey;
@@ -12,13 +13,10 @@ const Div = styled.div`
   padding: .5rem;
 `
 
-const Set = ({ set, collapsed }) => {
+const Set = ({ set }) => {
   return (
     <div>
-      {collapsed
-        ? <Div>{set.name}: {set.cards.length} cards</Div>
-        : null
-      }
+      <Link to={`/sets/${set.id}`}><Div>{set.name}: {set.cards.length} cards</Div></Link>
     </div>
   )
 }

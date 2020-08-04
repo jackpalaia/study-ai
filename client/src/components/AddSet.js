@@ -7,6 +7,7 @@ const AddSet = ({ handleAddSet }) => {
   const handleSubmit = event => {
     event.preventDefault()
     handleAddSet({ name: text })
+    setText('')
   }
 
   return (
